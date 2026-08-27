@@ -20,6 +20,9 @@
         </div>
       </div>
       <div class="header-actions">
+        <button id="settings-btn" class="icon-btn" type="button" aria-label="GitHub connection settings" title="GitHub connection settings">
+          <span aria-hidden="true">🔑</span>
+        </button>
         <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
           <span class="theme-icon">🌙</span>
         </button>
@@ -31,13 +34,38 @@
     <div id="status-banner"></div>
     <p id="last-updated" class="last-updated"></p>
 
+    <div class="action-row">
+      <button id="run-update-btn" class="btn-primary" type="button">🔄 Update prices now</button>
+      <span id="run-update-status" class="action-status"></span>
+    </div>
+
     <div id="summary-row" class="summary-row"></div>
 
     <h2 class="section-heading">Basket cost comparison</h2>
     <div id="basket-row" class="basket-row"></div>
     <p id="best-mix-note" class="best-mix-note"></p>
 
-    <h2 class="section-heading">Watchlist</h2>
+    <div class="watchlist-heading-row">
+      <h2 class="section-heading">Watchlist</h2>
+      <button id="add-item-toggle" class="btn-ghost" type="button">+ Add item</button>
+    </div>
+
+    <form id="add-item-form" class="add-item-form" hidden>
+      <div class="form-grid">
+        <label>Name<input id="new-item-name" type="text" required placeholder="e.g. Greek Yoghurt 1kg" /></label>
+        <label>Category<input id="new-item-category" type="text" placeholder="e.g. Dairy" /></label>
+        <label>Unit<input id="new-item-unit" type="text" placeholder="e.g. 1kg" /></label>
+        <label>Target price ($)<input id="new-item-target" type="number" step="0.01" min="0" placeholder="e.g. 5.00" /></label>
+        <label>Woolworths search term<input id="new-item-woolworths" type="text" placeholder="defaults to name" /></label>
+        <label>Coles search term<input id="new-item-coles" type="text" placeholder="defaults to name" /></label>
+        <label>Aldi price now ($, optional)<input id="new-item-aldi" type="number" step="0.01" min="0" placeholder="leave blank if unknown" /></label>
+      </div>
+      <div class="action-row">
+        <button id="add-item-submit" class="btn-primary" type="submit">Add to watchlist</button>
+        <span id="add-item-status" class="action-status"></span>
+      </div>
+    </form>
+
     <div class="controls" id="filters"></div>
     <div id="item-list" class="item-list"></div>
   </main>
@@ -52,6 +80,30 @@
     </p>
   </footer>
 
+  <div id="settings-modal" class="modal-overlay" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+      <h2 id="settings-title">GitHub connection</h2>
+      <p class="modal-help">
+        Needed only for the <strong>Update prices now</strong> button and the <strong>Add item</strong> form
+        — the rest of the dashboard works with no token. The token is stored solely in this browser's
+        <code>localStorage</code> and sent only to <code>api.github.com</code>; it's never written to the
+        repo or seen by anyone else. Use a token scoped to just this repo:
+        <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">fine-grained PAT</a>
+        with <strong>Contents: Read and write</strong> and <strong>Actions: Read and write</strong> on
+        <code>JJFOXJJ/grocery</code> — or a classic PAT with <code>repo</code> + <code>workflow</code> scopes.
+      </p>
+      <label>Personal access token<input id="gh-token-input" type="password" autocomplete="off" placeholder="github_pat_..." /></label>
+      <label>Branch to commit to / run on<input id="gh-branch-input" type="text" placeholder="main" /></label>
+      <div class="action-row">
+        <button id="settings-save" class="btn-primary" type="button">Save</button>
+        <button id="settings-clear" class="btn-ghost" type="button">Clear token</button>
+        <button id="settings-close" class="btn-ghost" type="button">Close</button>
+      </div>
+      <p id="settings-status" class="action-status"></p>
+    </div>
+  </div>
+
+  <script src="js/github.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

@@ -36,9 +36,43 @@ every push to `main`. One-time setup: in the repo's **Settings → Pages**, set
 **Source** to "GitHub Actions" (the workflow's own token can't turn Pages on
 by itself).
 
+## Using the dashboard's GitHub-connected controls
+
+Two things on the page — the **🔄 Update prices now** button and the
+**+ Add item** form — write back to this repo directly from your browser,
+using GitHub's REST API (which supports authenticated cross-origin requests,
+so no backend is needed):
+
+- **Update prices now** triggers the `update-grocery-prices` workflow
+  (`workflow_dispatch`) immediately instead of waiting for the daily 06:00
+  AEST run.
+- **+ Add item** commits a new entry straight into `data/watchlist.json`
+  (a normal git commit, via the Contents API) without editing JSON by hand.
+
+Both need a GitHub token, set once via the **🔑** button in the header:
+
+1. Create a token scoped to just this repo — either a
+   [fine-grained PAT](https://github.com/settings/personal-access-tokens/new)
+   with **Contents: Read and write** and **Actions: Read and write**
+   permissions on `JJFOXJJ/grocery`, or a classic PAT with the `repo` and
+   `workflow` scopes.
+2. Paste it into the settings panel along with the branch to commit to /
+   run the workflow on (usually `main`; use your feature branch's name if
+   you're testing before merging).
+
+The token is stored only in that browser's `localStorage` and sent only to
+`api.github.com` — it's never committed or sent anywhere else. Anyone with
+access to that browser profile can read it back out of localStorage, so
+don't set this up on a shared/public computer, and revoke the token from
+GitHub's settings if you ever want to cut off access. Everything else on the
+dashboard (viewing prices, filtering, the basket comparison) works with no
+token at all.
+
 ## Adding or editing a watchlist item
 
-Add an entry to `data/watchlist.json`:
+The **+ Add item** form on the dashboard covers the common case. To edit an
+item's details, add fields it doesn't expose (like `manualWasPrice`), or
+remove an item, edit `data/watchlist.json` directly:
 
 ```json
 {

@@ -275,10 +275,155 @@
     draw();
   }
 
+  /* ---------- GitHub-backed controls (update button, settings, add item) ---------- */
+
+  function setStatus(el, text, kind) {
+    el.textContent = text;
+    el.className = "action-status" + (kind ? ` is-${kind}` : "");
+  }
+
+  function initSettingsModal() {
+    const gh = window.GroceryGitHub;
+    const modal = document.getElementById("settings-modal");
+    const tokenInput = document.getElementById("gh-token-input");
+    const branchInput = document.getElementById("gh-branch-input");
+    const status = document.getElementById("settings-status");
+
+    function open() {
+      tokenInput.value = gh.getToken();
+      branchInput.value = gh.getBranch();
+      setStatus(status, gh.hasToken() ? "Currently connected." : "No token saved yet.");
+      modal.hidden = false;
+    }
+    function close() {
+      modal.hidden = true;
+    }
+
+    document.getElementById("settings-btn").addEventListener("click", open);
+    document.getElementById("settings-close").addEventListener("click", close);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) close();
+    });
+
+    document.getElementById("settings-save").addEventListener("click", () => {
+      gh.setToken(tokenInput.value.trim());
+      gh.setBranch(branchInput.value.trim() || "main");
+      setStatus(status, "Saved.", "ok");
+      syncRunUpdateAvailability();
+    });
+
+    document.getElementById("settings-clear").addEventListener("click", () => {
+      gh.setToken("");
+      tokenInput.value = "";
+      setStatus(status, "Token cleared.", "ok");
+      syncRunUpdateAvailability();
+    });
+  }
+
+  function syncRunUpdateAvailability() {
+    const btn = document.getElementById("run-update-btn");
+    const status = document.getElementById("run-update-status");
+    if (!window.GroceryGitHub.hasToken()) {
+      btn.disabled = true;
+      setStatus(status, "Add a GitHub token in Settings (🔑) to enable this.");
+    } else {
+      btn.disabled = false;
+      setStatus(status, "");
+    }
+  }
+
+  function initRunUpdateButton() {
+    const gh = window.GroceryGitHub;
+    const btn = document.getElementById("run-update-btn");
+    const status = document.getElementById("run-update-status");
+
+    syncRunUpdateAvailability();
+
+    btn.addEventListener("click", async () => {
+      btn.disabled = true;
+      setStatus(status, "Triggering workflow run...");
+      try {
+        await gh.triggerPriceUpdate();
+        setStatus(
+          status,
+          "Triggered — check the Actions tab for progress. Reload this page in a minute or two once it finishes.",
+          "ok"
+        );
+      } catch (err) {
+        setStatus(status, err.message, "error");
+      } finally {
+        btn.disabled = !gh.hasToken();
+      }
+    });
+  }
+
+  function readNewItemForm() {
+    const num = (id) => {
+      const v = document.getElementById(id).value.trim();
+      return v === "" ? null : Number(v);
+    };
+    const str = (id) => document.getElementById(id).value.trim();
+    return {
+      name: str("new-item-name"),
+      category: str("new-item-category"),
+      unit: str("new-item-unit"),
+      targetPrice: num("new-item-target"),
+      woolworthsSearchTerm: str("new-item-woolworths"),
+      colesSearchTerm: str("new-item-coles"),
+      aldiManualPrice: num("new-item-aldi"),
+    };
+  }
+
+  function initAddItemForm(onAdded) {
+    const gh = window.GroceryGitHub;
+    const toggle = document.getElementById("add-item-toggle");
+    const form = document.getElementById("add-item-form");
+    const status = document.getElementById("add-item-status");
+    const submitBtn = document.getElementById("add-item-submit");
+
+    toggle.addEventListener("click", () => {
+      form.hidden = !form.hidden;
+      toggle.textContent = form.hidden ? "+ Add item" : "Cancel";
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const draft = readNewItemForm();
+      if (!draft.name) {
+        setStatus(status, "Name is required.", "error");
+        return;
+      }
+      if (!gh.hasToken()) {
+        setStatus(status, "Add a GitHub token in Settings (🔑) first.", "error");
+        return;
+      }
+      submitBtn.disabled = true;
+      setStatus(status, "Committing to watchlist.json...");
+      try {
+        const entry = await gh.addWatchlistItem(draft);
+        setStatus(
+          status,
+          `Added "${draft.name}". It'll show real prices after the next update.`,
+          "ok"
+        );
+        form.reset();
+        form.hidden = true;
+        toggle.textContent = "+ Add item";
+        onAdded(entry);
+      } catch (err) {
+        setStatus(status, err.message, "error");
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  }
+
   /* ---------- Bootstrap ---------- */
 
   async function main() {
     initTheme();
+    initSettingsModal();
+    initRunUpdateButton();
 
     let watchlist = [];
     let prices = { lastUpdated: null, items: [] };
@@ -309,12 +454,35 @@
             belowTarget: false,
           }));
 
+    let currentFilter = "all";
+    function refreshAll() {
+      renderSummary(items);
+      renderBasketComparison(items);
+      renderFilters(items, (filter) => {
+        currentFilter = filter;
+        renderItemList(items, currentFilter);
+      });
+      renderItemList(items, currentFilter);
+    }
+
     renderStatusBanner(prices);
     renderLastUpdated(prices);
-    renderSummary(items);
-    renderBasketComparison(items);
-    renderFilters(items, (filter) => renderItemList(items, filter));
-    renderItemList(items, "all");
+    refreshAll();
+
+    initAddItemForm((entry) => {
+      items.push({
+        id: entry.id,
+        name: entry.name,
+        category: entry.category,
+        unit: entry.unit,
+        targetPrice: entry.targetPrice,
+        prices: {},
+        cheapest: null,
+        onSaleAnywhere: false,
+        belowTarget: false,
+      });
+      refreshAll();
+    });
   }
 
   main();
