@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Grocery Price Watchlist — Woolworths, Coles &amp; Aldi</title>
+  <meta name="description" content="Track grocery prices across Woolworths, Coles and Aldi, get sale badges, and compare basket cost between stores." />
+  <meta name="theme-color" content="#0b0d12" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🛒%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-flag" aria-hidden="true">🛒</span>
+        <div class="brand-text">
+          <h1>Grocery Price Watchlist</h1>
+          <p class="tagline">Woolworths &middot; Coles &middot; Aldi</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <span class="theme-icon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div id="status-banner"></div>
+    <p id="last-updated" class="last-updated"></p>
+
+    <div id="summary-row" class="summary-row"></div>
+
+    <h2 class="section-heading">Basket cost comparison</h2>
+    <div id="basket-row" class="basket-row"></div>
+    <p id="best-mix-note" class="best-mix-note"></p>
+
+    <h2 class="section-heading">Watchlist</h2>
+    <div class="controls" id="filters"></div>
+    <div id="item-list" class="item-list"></div>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      Prices are polled daily from each store's own site and are best-effort — Woolworths and Coles run
+      bot-detection that can block automated checks on any given day, and Aldi has no public per-item
+      price API in Australia, so its prices are entered manually. Always confirm the final price in-store
+      or at checkout. See <a href="https://github.com/JJFOXJJ/grocery/blob/main/README.md">README.md</a>
+      for how to edit the watchlist.
+    </p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

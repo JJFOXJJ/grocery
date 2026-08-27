@@ -1,0 +1,74 @@
+[
+  {
+    "id": "milk-full-cream-2l",
+    "name": "Full Cream Milk 2L",
+    "category": "Dairy",
+    "unit": "2L",
+    "targetPrice": 3.50,
+    "stores": {
+      "woolworths": { "searchTerm": "full cream milk 2l" },
+      "coles": { "searchTerm": "full cream milk 2l" },
+      "aldi": { "manualPrice": null }
+    }
+  },
+  {
+    "id": "eggs-free-range-12",
+    "name": "Free Range Eggs 12pk",
+    "category": "Dairy & Eggs",
+    "unit": "12pk",
+    "targetPrice": 6.00,
+    "stores": {
+      "woolworths": { "searchTerm": "free range eggs 12 pack" },
+      "coles": { "searchTerm": "free range eggs 12 pack" },
+      "aldi": { "manualPrice": null }
+    }
+  },
+  {
+    "id": "bread-wholemeal-700g",
+    "name": "Wholemeal Bread 700g",
+    "category": "Bakery",
+    "unit": "700g",
+    "targetPrice": 3.00,
+    "stores": {
+      "woolworths": { "searchTerm": "wholemeal bread 700g" },
+      "coles": { "searchTerm": "wholemeal bread 700g" },
+      "aldi": { "manualPrice": null }
+    }
+  },
+  {
+    "id": "bananas-per-kg",
+    "name": "Bananas",
+    "category": "Fruit & Veg",
+    "unit": "1kg",
+    "targetPrice": 3.50,
+    "stores": {
+      "woolworths": { "searchTerm": "bananas" },
+      "coles": { "searchTerm": "bananas" },
+      "aldi": { "manualPrice": null }
+    }
+  },
+  {
+    "id": "chicken-breast-per-kg",
+    "name": "Chicken Breast",
+    "category": "Meat & Seafood",
+    "unit": "1kg",
+    "targetPrice": 10.00,
+    "stores": {
+      "woolworths": { "searchTerm": "chicken breast fillets" },
+      "coles": { "searchTerm": "chicken breast fillets" },
+      "aldi": { "manualPrice": null }
+    }
+  },
+  {
+    "id": "cheese-block-tasty-500g",
+    "name": "Tasty Cheese Block 500g",
+    "category": "Dairy",
+    "unit": "500g",
+    "targetPrice": 6.50,
+    "stores": {
+      "woolworths": { "searchTerm": "tasty cheese block 500g" },
+      "coles": { "searchTerm": "tasty cheese block 500g" },
+      "aldi": { "manualPrice": null }
+    }
+  }
+]
