@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-31T23:35:31.034Z",
+  "lastUpdated": "2026-09-01T22:20:59.723Z",
   "generatedBy": "scripts/fetch-grocery-prices.mjs",
   "items": [
     {
@@ -46,10 +46,10 @@
         "coles": {
           "status": "ok",
           "productName": "Free Range Eggs 12 Pack",
-          "price": 6.5,
-          "wasPrice": null,
-          "onSale": false,
-          "unitPrice": "$0.93/ 100g"
+          "price": 5.5,
+          "wasPrice": 6.5,
+          "onSale": true,
+          "unitPrice": "$0.79/ 100g"
         },
         "aldi": {
           "status": "manual-not-set"
@@ -57,10 +57,10 @@
       },
       "cheapest": {
         "store": "coles",
-        "price": 6.5
+        "price": 5.5
       },
-      "onSaleAnywhere": false,
-      "belowTarget": false
+      "onSaleAnywhere": true,
+      "belowTarget": true
     },
     {
       "id": "bread-wholemeal-700g",
