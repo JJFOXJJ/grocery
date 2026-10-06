@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-04T22:41:24.082Z",
+  "lastUpdated": "2026-10-06T01:05:37.408Z",
   "generatedBy": "scripts/fetch-grocery-prices.mjs",
   "items": [
     {
@@ -16,10 +16,10 @@
         "coles": {
           "status": "ok",
           "productName": "Full Cream Milk",
-          "price": 7.3,
+          "price": 3.4,
           "wasPrice": null,
           "onSale": false,
-          "unitPrice": "$3.65/ 1L"
+          "unitPrice": "$1.70/ 1L"
         },
         "aldi": {
           "status": "manual-not-set"
@@ -27,10 +27,10 @@
       },
       "cheapest": {
         "store": "coles",
-        "price": 7.3
+        "price": 3.4
       },
       "onSaleAnywhere": false,
-      "belowTarget": false
+      "belowTarget": true
     },
     {
       "id": "eggs-free-range-12",
@@ -45,11 +45,11 @@
         },
         "coles": {
           "status": "ok",
-          "productName": "Free Range Eggs 12 Pack",
-          "price": 6.7,
-          "wasPrice": null,
-          "onSale": false,
-          "unitPrice": "$0.96/ 100g"
+          "productName": "Eggs For Everyone Free Range 12 Pack",
+          "price": 6.9,
+          "wasPrice": 7.75,
+          "onSale": true,
+          "unitPrice": "$0.99/ 100g"
         },
         "aldi": {
           "status": "manual-not-set"
@@ -57,9 +57,9 @@
       },
       "cheapest": {
         "store": "coles",
-        "price": 6.7
+        "price": 6.9
       },
-      "onSaleAnywhere": false,
+      "onSaleAnywhere": true,
       "belowTarget": false
     },
     {
