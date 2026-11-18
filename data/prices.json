@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-17T02:45:04.248Z",
+  "lastUpdated": "2026-11-18T02:03:36.224Z",
   "generatedBy": "scripts/fetch-grocery-prices.mjs",
   "items": [
     {
@@ -46,10 +46,10 @@
         "coles": {
           "status": "ok",
           "productName": "Eggs For Everyone Free Range 12 Pack",
-          "price": 6.9,
-          "wasPrice": 7.75,
-          "onSale": true,
-          "unitPrice": "$0.99/ 100g"
+          "price": 7.75,
+          "wasPrice": null,
+          "onSale": false,
+          "unitPrice": "$1.11/ 100g"
         },
         "aldi": {
           "status": "manual-not-set"
@@ -57,9 +57,9 @@
       },
       "cheapest": {
         "store": "coles",
-        "price": 6.9
+        "price": 7.75
       },
-      "onSaleAnywhere": true,
+      "onSaleAnywhere": false,
       "belowTarget": false
     },
     {
